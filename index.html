@@ -27,7 +27,62 @@
     --green: #2e7d32;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
+    /* dark mode surfaces */
+    --surface: #fff;
+    --surface2: #fdf6ec;
+    --border: #e8e0d5;
+    --text: #1a1a1a;
+    --text-mid: #666;
   }
+
+  body.dark-mode {
+    --cream: #1e1e1e;
+    --white: #2a2a2a;
+    --light: #3a3a3a;
+    --mid: #aaa;
+    --dark-text: #f0f0f0;
+    --surface: #2a2a2a;
+    --surface2: #1e1e1e;
+    --border: #3a3a3a;
+    --text: #f0f0f0;
+    --text-mid: #aaa;
+  }
+
+  body.dark-mode .scroll-area { background: #1a1a1a; }
+  body.dark-mode .card { background: #2a2a2a; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
+  body.dark-mode select { background: #2a2a2a; color: #f0f0f0; border-color: #3a3a3a; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+  body.dark-mode .smoothie-preview { background: #333; }
+  body.dark-mode .addin-card { background: #333; border-color: #444; }
+  body.dark-mode .addin-name { color: #f0f0f0; }
+  body.dark-mode .food-toggle { background: #333; }
+  body.dark-mode .food-toggle-btn.active { background: #444; color: #f0f0f0; }
+  body.dark-mode .food-cat-header { background: #333; }
+  body.dark-mode .food-cat-name { color: #ccc; }
+  body.dark-mode .food-cat-body { background: #2a2a2a; }
+  body.dark-mode #foodSearchInput { background: #2a2a2a; color: #f0f0f0; border-color: #3a3a3a; }
+  body.dark-mode .fda-label { background: #fff; color: #000; } /* keep FDA label white for legibility */
+  body.dark-mode .fda-combo-name { color: #f0f0f0; }
+  body.dark-mode .fda-combo-sub { color: #aaa; }
+  body.dark-mode .alert.warn { background: #3a2800; border-color: #a0620d; }
+  body.dark-mode .alert.good { background: #0a2e15; border-color: #2e7d32; }
+  body.dark-mode .fav-item { background: #2a2a2a; border-color: #3a3a3a; }
+  body.dark-mode .fav-item-name { color: #f0f0f0; }
+  body.dark-mode .fav-btn.del { background: #3a1515; }
+  body.dark-mode .goal-input { background: #2a2a2a; color: #f0f0f0; border-color: #3a3a3a; }
+  body.dark-mode .goal-bar-track { background: #3a3a3a; }
+  body.dark-mode .filter-result-item { border-bottom-color: #3a3a3a; }
+  body.dark-mode .filter-result-name { color: #f0f0f0; }
+  body.dark-mode .compare-sel select { background: #2a2a2a; color: #f0f0f0; }
+  body.dark-mode .empty-state { background: #1a1a1a; }
+  body.dark-mode .empty-state p { color: #aaa; }
+  body.dark-mode .size-toggle { background: #333; }
+  body.dark-mode .size-btn.active { background: #444; color: #f0f0f0; }
+  body.dark-mode .macro-chart-wrap { background: #333; }
+  body.dark-mode .macro-legend-item span:first-child { color: #f0f0f0; }
+
+  /* dark mode toggle button */
+  .dark-toggle { background: none; border: none; font-size: 20px; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
+  .dark-toggle:active { background: rgba(255,255,255,0.1); }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; }
@@ -253,7 +308,28 @@
   .about-row .val { font-weight: 700; font-size: 13px; }
   .about-note { font-size: 11px; color: var(--mid); line-height: 1.6; padding: 12px 0; }
 
-  /* ── GOAL MODE ── */
+  /* ── SIZE TOGGLE ── */
+  .size-toggle { display: flex; background: var(--cream); border-radius: 10px; padding: 3px; margin-top: 12px; }
+  .size-btn { flex: 1; padding: 8px; text-align: center; font-size: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s; color: var(--mid); }
+  .size-btn.active { background: var(--white); color: var(--teal); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  .size-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-top: 10px; margin-bottom: 4px; display: block; }
+
+  /* ── MACRO CHART ── */
+  .macro-chart-wrap { background: var(--cream); border-radius: 12px; padding: 14px; margin-bottom: 14px; }
+  .macro-chart-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: 12px; }
+  .macro-chart-inner { display: flex; align-items: center; gap: 16px; }
+  .macro-donut-wrap { position: relative; flex-shrink: 0; }
+  .macro-donut-wrap svg { display: block; }
+  .macro-donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+  .macro-donut-cal { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--teal); line-height: 1; }
+  .macro-donut-lbl { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); }
+  .macro-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .macro-legend-item { display: flex; align-items: center; gap: 8px; }
+  .macro-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .macro-legend-info { flex: 1; }
+  .macro-legend-name { font-size: 11px; font-weight: 700; color: var(--dark); }
+  .macro-legend-val { font-size: 10px; color: var(--mid); }
+  .macro-legend-bar { height: 4px; border-radius: 2px; margin-top: 3px; transition: width 0.5s; }
   .goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
   .goal-input-wrap { display: flex; flex-direction: column; gap: 4px; }
   .goal-input-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); }
@@ -288,15 +364,15 @@
   .fav-save-btn.visible { display: block; }
 
   /* ── SMART FILTER ── */
-  .filter-goal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-  .filter-goal-btn { padding: 10px 8px; border: 2px solid var(--light); border-radius: 12px; background: var(--white); text-align: center; cursor: pointer; transition: all 0.2s; }
-  .filter-goal-btn.active { border-color: var(--teal); background: #e8f5f3; }
-  .filter-goal-btn-icon { font-size: 20px; display: block; margin-bottom: 3px; }
-  .filter-goal-btn-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); }
-  .filter-goal-btn.active .filter-goal-btn-label { color: var(--teal); }
+  .filter-goal-select { width: 100%; padding: 12px 14px; border: 2px solid var(--light); border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--dark); background: var(--cream); appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; margin-bottom: 6px; }
+  .filter-goal-select:focus { outline: none; border-color: var(--teal); }
+  .filter-goal-desc { font-size: 11px; color: var(--mid); line-height: 1.5; margin-bottom: 14px; min-height: 32px; padding: 0 2px; }
+  body.dark-mode .filter-goal-select { background-color: #2a2a2a; color: #f0f0f0; border-color: #3a3a3a; }
   .filter-type-row { display: flex; gap: 8px; margin-bottom: 14px; }
   .filter-type-btn { flex: 1; padding: 9px; border: 2px solid var(--light); border-radius: 10px; background: var(--white); font-size: 12px; font-weight: 700; color: var(--mid); cursor: pointer; text-align: center; transition: all 0.2s; }
   .filter-type-btn.active { border-color: var(--orange); background: var(--orange-light); color: var(--orange); }
+  body.dark-mode .filter-type-btn { background: #2a2a2a; border-color: #3a3a3a; color: #aaa; }
+  body.dark-mode .filter-type-btn.active { background: #2e1a0a; border-color: var(--orange); color: var(--orange); }
   .filter-result-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--light); }
   .filter-result-item:last-child { border-bottom: none; }
   .filter-result-rank { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--light); min-width: 28px; }
@@ -312,6 +388,23 @@
   .filter-stat.highlight strong { color: var(--teal); font-size: 13px; }
   .filter-empty { text-align: center; padding: 32px 16px; color: #bbb; font-size: 13px; }
   .filter-count-badge { background: var(--teal); color: var(--white); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: 8px; }
+  .per100-toggle { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+  .per100-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; }
+  .toggle-switch { position: relative; width: 36px; height: 20px; cursor: pointer; }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .toggle-track { position: absolute; inset: 0; background: #444; border-radius: 20px; transition: background 0.2s; }
+  .toggle-track::before { content:''; position: absolute; width: 14px; height: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform 0.2s; }
+  .toggle-switch input:checked + .toggle-track { background: var(--teal); }
+  .toggle-switch input:checked + .toggle-track::before { transform: translateX(16px); }
+  .filter-context-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-top: 4px; }
+  .filter-context-tag.green  { background: #e8f5e9; color: #2e7d32; }
+  .filter-context-tag.yellow { background: #fffde7; color: #f57f17; }
+  .filter-context-tag.red    { background: #fce4e4; color: #c0392b; }
+  .filter-context-tag.blue   { background: #e3f2fd; color: #1565c0; }
+  body.dark-mode .filter-context-tag.green  { background: #0a2e15; color: #66bb6a; }
+  body.dark-mode .filter-context-tag.yellow { background: #2e2500; color: #fdd835; }
+  body.dark-mode .filter-context-tag.red    { background: #3a1515; color: #ef9a9a; }
+  body.dark-mode .filter-context-tag.blue   { background: #0d1f3a; color: #64b5f6; }
 
   /* ── TOAST ── */
   .toast { position: fixed; bottom: calc(var(--safe-bottom) + 80px); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--dark); color: var(--white); padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 700; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
@@ -320,7 +413,7 @@
   /* ── Legal Panels ── */
   .legal-panel { background: var(--white); border-radius: 14px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
   .legal-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; gap: 10px; }
-  .legal-header-left { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1px; color: var(--dark); }
+  .legal-header-left { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 1px; color: var(--text); }
   .legal-chevron { font-size: 12px; color: var(--mid); transition: transform 0.2s; display: inline-block; }
   .legal-chevron.open { transform: rotate(90deg); }
   .legal-body { display: none; padding: 0 16px 16px; font-size: 13px; color: var(--mid); line-height: 1.7; }
@@ -328,6 +421,7 @@
   .legal-body ul { margin: 8px 0 0 0; padding-left: 18px; }
   .legal-body ul li { margin-bottom: 6px; }
   .legal-effective { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; display: block; }
+  body.dark-mode .legal-panel { box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
 </style>
 </head>
 <body>
@@ -337,7 +431,10 @@
     <div class="app-logo">Tropical <span>Smoothie</span></div>
     <div class="app-logo-sub">Nutrition Calculator</div>
   </div>
-  <div class="header-badge">🥤 v3.0</div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="dark-toggle" id="darkToggleBtn" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+    <div class="header-badge">🥤 v3.0</div>
+  </div>
 </div>
 
 <div class="tab-bar">
@@ -364,6 +461,11 @@
         <select id="smoothieSelect" onchange="onSmoothieChange()">
           <option value="">— No smoothie (food only) —</option>
         </select>
+        <span class="size-label">Smoothie Size</span>
+        <div class="size-toggle">
+          <div class="size-btn active" data-size="24" onclick="setSize(this)">24 oz</div>
+          <div class="size-btn" data-size="32" onclick="setSize(this)">32 oz</div>
+        </div>
         <div class="smoothie-preview" id="smoothiePreview">
           <div>
             <div class="preview-cal-num" id="previewCal">0</div>
@@ -439,11 +541,27 @@
         <div class="card-body">
           <div class="fda-combo-name" id="comboName">—</div>
           <div class="fda-combo-sub" id="comboSub">—</div>
+
+          <!-- Macro Split Chart -->
+          <div class="macro-chart-wrap">
+            <div class="macro-chart-title">Macro Split</div>
+            <div class="macro-chart-inner">
+              <div class="macro-donut-wrap">
+                <svg width="100" height="100" viewBox="0 0 100 100" id="macroDonut"></svg>
+                <div class="macro-donut-center">
+                  <div class="macro-donut-cal" id="macroDonutCal">0</div>
+                  <div class="macro-donut-lbl">cal</div>
+                </div>
+              </div>
+              <div class="macro-legend" id="macroLegend"></div>
+            </div>
+          </div>
+          <!-- FDA Label -->
           <div class="fda-label">
             <div class="fda-title">Nutrition Facts</div>
             <div class="fda-serving">
               <div style="font-size:11px;margin-bottom:2px;">1 serving per container</div>
-              <div class="fda-serving-row"><span>Serving size</span><span>1 Order</span></div>
+              <div class="fda-serving-row"><span>Serving size</span><span id="lServingSize">1 Order (24oz)</span></div>
             </div>
             <div class="fda-cal-row">
               <div class="fda-cal-label"><small>Amount per serving</small>Calories</div>
@@ -547,43 +665,31 @@
         <span class="card-header-title">Smart Filter</span>
       </div>
       <div class="card-body">
-        <p style="font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.5;">Pick a goal, pick a menu type, and see the top 10 ranked instantly.</p>
+        <p style="font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.5;">Pick a goal and menu type — top 10 ranked instantly.</p>
 
         <span class="field-label">Your Goal</span>
-        <div class="filter-goal-grid" id="filterGoalGrid">
-          <div class="filter-goal-btn active" data-goal="protein" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">💪</span>
-            <span class="filter-goal-btn-label">Most Protein</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="cal_low" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🔥</span>
-            <span class="filter-goal-btn-label">Lowest Calories</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="fiber" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🌿</span>
-            <span class="filter-goal-btn-label">Most Fiber</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="sugar_low" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🚫🍬</span>
-            <span class="filter-goal-btn-label">Lowest Sugar</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="sodium_low" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🧂</span>
-            <span class="filter-goal-btn-label">Lowest Sodium</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="protein_cal" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">⚡</span>
-            <span class="filter-goal-btn-label">Best Protein/Cal</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="cal_high" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🏋️</span>
-            <span class="filter-goal-btn-label">Highest Calories</span>
-          </div>
-          <div class="filter-goal-btn" data-goal="fat_low" onclick="setFilterGoal(this)">
-            <span class="filter-goal-btn-icon">🥗</span>
-            <span class="filter-goal-btn-label">Lowest Fat</span>
-          </div>
-        </div>
+        <select class="filter-goal-select" id="filterGoalSelect" onchange="onFilterGoalChange()">
+          <optgroup label="── Simple Goals ──">
+            <option value="protein">💪 Most Protein</option>
+            <option value="cal_low">🔥 Lowest Calories</option>
+            <option value="cal_high">🏋️ Highest Calories</option>
+            <option value="fiber">🌿 Most Fiber</option>
+            <option value="sugar_low">🚫 Lowest Sugar</option>
+            <option value="sodium_low">🧂 Lowest Sodium</option>
+            <option value="fat_low">🥗 Lowest Fat</option>
+          </optgroup>
+          <optgroup label="── Efficiency Ratios ──">
+            <option value="protein_cal">⚡ Best Protein/Cal Ratio</option>
+            <option value="protein_carb">🧬 Best Protein/Carb Ratio</option>
+            <option value="fiber_cal">🌾 Best Fiber/Cal Ratio</option>
+            <option value="sugar_cal">🩸 Lowest Sugar/Cal Ratio</option>
+            <option value="fat_cal">💧 Lowest Fat/Cal Ratio</option>
+          </optgroup>
+          <optgroup label="── Composite ──">
+            <option value="clean_score">🏆 Best "Clean Meal" Score</option>
+          </optgroup>
+        </select>
+        <div class="filter-goal-desc" id="filterGoalDesc"></div>
 
         <span class="field-label">Menu Type</span>
         <div class="filter-type-row" id="filterTypeRow">
@@ -595,10 +701,17 @@
     </div>
 
     <div class="card">
-      <div class="card-header dark">
+      <div class="card-header dark" style="justify-content:flex-start;gap:8px;">
         <span class="card-header-icon">🏆</span>
         <span class="card-header-title" id="filterResultTitle">Top Results</span>
         <span class="filter-count-badge" id="filterCountBadge">10</span>
+        <div class="per100-toggle" style="margin-left:auto;">
+          <span class="per100-label">Per 100 cal</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="per100Toggle" onchange="runFilter()">
+            <div class="toggle-track"></div>
+          </label>
+        </div>
       </div>
       <div class="card-body" style="padding:0;" id="filterResults">
         <div class="filter-empty">Select a goal above to see results</div>
@@ -695,13 +808,11 @@
       <div class="legal-body" id="legal-tos">
         <span class="legal-effective">Effective: March 14, 2026</span>
         <ul>
-          <li>TSC Nutrition Calculator ("the App") is a product of Obsidian Corvus Strategy LLC.</li>
-          <li>The App is provided "as is" without warranties of any kind, express or implied.</li>
-          <li>Nutritional data is sourced from restaurant-published materials and is provided for informational purposes only. Values may vary based on preparation and serving size.</li>
-          <li>The App is not intended for use in making medical, clinical, or dietary treatment decisions.</li>
-          <li>All intellectual property, including the App's design, code, and methodology, is owned by Obsidian Corvus Strategy LLC. Unauthorized reproduction or distribution is prohibited.</li>
-          <li>Continued use of the App constitutes acceptance of these terms.</li>
-          <li>Terms may be updated at any time. Check this page for the most current version.</li>
+          <li>This app is provided "as is" by <strong>Obsidian Corvus Strategy LLC</strong> without warranty of any kind.</li>
+          <li>Nutritional data is sourced from restaurant-published materials and is provided for informational purposes only.</li>
+          <li>Do not rely on this app for medical, dietary, or clinical decisions.</li>
+          <li>All intellectual property, including software and design, is owned by Obsidian Corvus Strategy LLC.</li>
+          <li>Use of this app constitutes acceptance of these terms.</li>
         </ul>
       </div>
     </div>
@@ -715,11 +826,10 @@
       <div class="legal-body" id="legal-disclaimer">
         <span class="legal-effective">Effective: March 14, 2026</span>
         <ul>
-          <li>Nutritional information displayed in this App is for general informational purposes only.</li>
-          <li>Values are based on standard serving sizes as published by the restaurant and may differ from actual prepared items.</li>
-          <li>This App is not a substitute for professional nutrition, dietary, or medical advice.</li>
-          <li>Always consult the in-store nutrition guide and a qualified professional for decisions affecting your health.</li>
-          <li>Obsidian Corvus Strategy LLC makes no representations as to the accuracy or completeness of any information on this App.</li>
+          <li>This app is for informational purposes only and does not constitute medical or nutritional advice.</li>
+          <li>Nutritional values are based on standard recipes and may vary by location, preparation, or ingredient substitution.</li>
+          <li>Always consult a qualified healthcare provider before making significant dietary changes.</li>
+          <li>Obsidian Corvus Strategy LLC is not affiliated with Tropical Smoothie Cafe or its parent companies.</li>
         </ul>
       </div>
     </div>
@@ -759,12 +869,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// PROXY CONFIG
-// ══════════════════════════════════════════════════════
-const PROXY_URL = 'https://ocsc-proxy-production.up.railway.app';
-const PROXY_TOKEN = '686f9b441f503dbec344621860a9578e';
-
 // ══════════════════════════════════════════════════════
 // DATA
 // ══════════════════════════════════════════════════════
@@ -1132,10 +1236,11 @@ function onSmoothieChange() {
   const preview = document.getElementById('smoothiePreview');
   if (sel.value === '') { preview.classList.remove('visible'); return; }
   const s = smoothies[parseInt(sel.value)];
-  document.getElementById('previewCal').textContent = s.cal;
-  document.getElementById('previewProtein').textContent = s.protein;
-  document.getElementById('previewSugar').textContent = s.sugar;
-  document.getElementById('previewFat').textContent = Math.round(s.fat);
+  const mult = getSizeMultiplier();
+  document.getElementById('previewCal').textContent = Math.round(s.cal * mult);
+  document.getElementById('previewProtein').textContent = Math.round(s.protein * mult);
+  document.getElementById('previewSugar').textContent = Math.round(s.sugar * mult);
+  document.getElementById('previewFat').textContent = Math.round(s.fat * mult);
   preview.classList.add('visible');
 }
 
@@ -1168,8 +1273,11 @@ function calculate() {
 
   if (hasSmoothie) {
     const s = smoothies[parseInt(sel.value)];
-    addItem(t, s);
-    parts.push(s.name);
+    const mult = getSizeMultiplier();
+    const scaled = {};
+    Object.keys(s).forEach(k => scaled[k] = typeof s[k] === 'number' ? s[k] * mult : s[k]);
+    addItem(t, scaled);
+    parts.push(`${s.name} (${smoothieSize}oz)`);
   }
 
   const addinNames = [];
@@ -1234,6 +1342,8 @@ function calculate() {
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('labelContent').style.display = 'block';
   document.getElementById('favSaveBtn').style.display = 'block';
+  document.getElementById('lServingSize').textContent = hasSmoothie ? `1 Order (${smoothieSize}oz)` : '1 Order';
+  drawMacroChart(t);
   renderGoalBars();
   switchTab('label');
 }
@@ -1415,7 +1525,98 @@ function showToast(msg) {
 }
 
 // ══════════════════════════════════════════════════════
-// FAVORITES
+// DARK MODE
+// ══════════════════════════════════════════════════════
+let darkMode = localStorage.getItem('tsc_dark') === '1';
+
+function applyDarkMode() {
+  document.body.classList.toggle('dark-mode', darkMode);
+  document.getElementById('darkToggleBtn').textContent = darkMode ? '☀️' : '🌙';
+}
+
+function toggleDarkMode() {
+  darkMode = !darkMode;
+  localStorage.setItem('tsc_dark', darkMode ? '1' : '0');
+  applyDarkMode();
+}
+
+// ══════════════════════════════════════════════════════
+// SIZE TOGGLE
+// ══════════════════════════════════════════════════════
+let smoothieSize = 24; // default 24oz
+
+function setSize(btn) {
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  smoothieSize = parseInt(btn.dataset.size);
+  // re-run preview and recalculate if smoothie selected
+  onSmoothieChange();
+  if (lastTotals !== null) calculate();
+}
+
+function getSizeMultiplier() {
+  return smoothieSize === 32 ? (32 / 24) : 1.0;
+}
+
+// ══════════════════════════════════════════════════════
+// MACRO SPLIT CHART
+// ══════════════════════════════════════════════════════
+const MACRO_COLORS = { protein: '#00897b', carb: '#f59e0b', fat: '#e65100' };
+
+function drawMacroChart(t) {
+  // calories from each macro
+  const proteinCal = t.protein * 4;
+  const carbCal    = t.carb * 4;
+  const fatCal     = t.fat * 9;
+  const total      = proteinCal + carbCal + fatCal || 1;
+
+  const macros = [
+    { key: 'protein', label: 'Protein',      cal: proteinCal, grams: t.protein, color: MACRO_COLORS.protein },
+    { key: 'carb',    label: 'Carbohydrates', cal: carbCal,    grams: t.carb,    color: MACRO_COLORS.carb    },
+    { key: 'fat',     label: 'Fat',           cal: fatCal,     grams: t.fat,     color: MACRO_COLORS.fat     },
+  ];
+
+  // Draw SVG donut
+  const cx = 50, cy = 50, r = 38, stroke = 14;
+  const circumference = 2 * Math.PI * r;
+  let offset = 0;
+  let svgPaths = '';
+
+  macros.forEach(m => {
+    const pct = m.cal / total;
+    const dash = pct * circumference;
+    const gap  = circumference - dash;
+    // rotate so protein starts at top
+    const rotation = (offset / total) * 360 - 90;
+    svgPaths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${m.color}" stroke-width="${stroke}"
+      stroke-dasharray="${dash} ${gap}"
+      stroke-dashoffset="0"
+      transform="rotate(${rotation} ${cx} ${cy})"
+      style="transition:stroke-dasharray 0.5s"/>`;
+    offset += m.cal;
+  });
+
+  document.getElementById('macroDonut').innerHTML = svgPaths;
+  document.getElementById('macroDonutCal').textContent = Math.round(t.cal);
+
+  // Legend
+  document.getElementById('macroLegend').innerHTML = macros.map(m => {
+    const pct = Math.round((m.cal / total) * 100);
+    return `<div class="macro-legend-item">
+      <div class="macro-legend-dot" style="background:${m.color}"></div>
+      <div class="macro-legend-info">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span class="macro-legend-name">${m.label}</span>
+          <span style="font-size:11px;font-weight:700;color:${m.color}">${pct}%</span>
+        </div>
+        <div class="macro-legend-val">${Math.round(m.grams)}g · ${Math.round(m.cal)} cal</div>
+        <div class="macro-legend-bar" style="background:${m.color};width:${pct}%"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
 // ══════════════════════════════════════════════════════
 let favorites = JSON.parse(localStorage.getItem('tsc_favorites') || '[]');
 
@@ -1566,20 +1767,59 @@ let filterGoal = 'protein';
 let filterType = 'smoothies';
 
 const GOAL_CONFIG = {
-  protein:     { label:'Most Protein',       sort: (a,b) => b.protein - a.protein,         statKey:'protein', unit:'g', lowerBetter:false },
-  cal_low:     { label:'Lowest Calories',    sort: (a,b) => a.cal - b.cal,                 statKey:'cal',     unit:'', lowerBetter:true  },
-  fiber:       { label:'Most Fiber',         sort: (a,b) => b.fiber - a.fiber,             statKey:'fiber',   unit:'g', lowerBetter:false },
-  sugar_low:   { label:'Lowest Sugar',       sort: (a,b) => a.sugar - b.sugar,             statKey:'sugar',   unit:'g', lowerBetter:true  },
-  sodium_low:  { label:'Lowest Sodium',      sort: (a,b) => a.sodium - b.sodium,           statKey:'sodium',  unit:'mg',lowerBetter:true  },
-  protein_cal: { label:'Best Protein/Cal',   sort: (a,b) => (b.protein/b.cal||0) - (a.protein/a.cal||0), statKey:'ratio', unit:'', lowerBetter:false },
-  cal_high:    { label:'Highest Calories',   sort: (a,b) => b.cal - a.cal,                 statKey:'cal',     unit:'', lowerBetter:false },
-  fat_low:     { label:'Lowest Fat',         sort: (a,b) => a.fat - b.fat,                 statKey:'fat',     unit:'g', lowerBetter:true  },
+  // ── Simple ──
+  protein:      { label:'Most Protein',            desc:'Ranked by total protein grams — great for muscle building and recovery.',                        sort:(a,b)=>b.protein-a.protein,                                    statKey:'protein',   unit:'g',      fmt:v=>Math.round(v)+'g' },
+  cal_low:      { label:'Lowest Calories',          desc:'Ranked by fewest calories — ideal for calorie-controlled diets.',                               sort:(a,b)=>a.cal-b.cal,                                            statKey:'cal',       unit:'',       fmt:v=>Math.round(v)+' cal' },
+  cal_high:     { label:'Highest Calories',         desc:'Ranked by most calories — useful for bulking or high-energy days.',                             sort:(a,b)=>b.cal-a.cal,                                            statKey:'cal',       unit:'',       fmt:v=>Math.round(v)+' cal' },
+  fiber:        { label:'Most Fiber',               desc:'Ranked by total fiber grams — supports digestion and keeps you fuller longer.',                  sort:(a,b)=>b.fiber-a.fiber,                                        statKey:'fiber',     unit:'g',      fmt:v=>Math.round(v)+'g' },
+  sugar_low:    { label:'Lowest Sugar',             desc:'Ranked by fewest sugar grams — best for blood sugar management.',                               sort:(a,b)=>a.sugar-b.sugar,                                        statKey:'sugar',     unit:'g',      fmt:v=>Math.round(v)+'g' },
+  sodium_low:   { label:'Lowest Sodium',            desc:'Ranked by least sodium — important for heart health and blood pressure.',                       sort:(a,b)=>a.sodium-b.sodium,                                      statKey:'sodium',    unit:'mg',     fmt:v=>Math.round(v)+'mg' },
+  fat_low:      { label:'Lowest Fat',               desc:'Ranked by fewest fat grams — useful for low-fat dietary goals.',                               sort:(a,b)=>a.fat-b.fat,                                            statKey:'fat',       unit:'g',      fmt:v=>Math.round(v)+'g' },
+  // ── Ratios ──
+  protein_cal:  { label:'Best Protein/Cal Ratio',   desc:'Grams of protein per 100 calories. Higher = more protein-dense. The gold standard for efficient muscle fuel.',    sort:(a,b)=>(b.protein/(b.cal||1))-(a.protein/(a.cal||1)),       statKey:'r_pc',      unit:'',       fmt:(v,item)=>((item.protein/(item.cal||1))*100).toFixed(1)+'g/100cal' },
+  protein_carb: { label:'Best Protein/Carb Ratio',  desc:'Protein grams divided by carb grams. Higher = more protein-dominant. Great for low-carb and keto-adjacent goals.', sort:(a,b)=>(b.protein/(b.carb||1))-(a.protein/(a.carb||1)),     statKey:'r_pcarb',   unit:'',       fmt:(v,item)=>((item.protein/(item.carb||1))).toFixed(2)+' ratio' },
+  fiber_cal:    { label:'Best Fiber/Cal Ratio',     desc:'Fiber grams per 100 calories. Higher = more digestive value per calorie.',                     sort:(a,b)=>(b.fiber/(b.cal||1))-(a.fiber/(a.cal||1)),              statKey:'r_fc',      unit:'',       fmt:(v,item)=>((item.fiber/(item.cal||1))*100).toFixed(2)+'g/100cal' },
+  sugar_cal:    { label:'Lowest Sugar/Cal Ratio',   desc:'Sugar as a % of total calories. Lower = less of your calorie load is pure sugar.',             sort:(a,b)=>(a.sugar/(a.cal||1))-(b.sugar/(b.cal||1)),              statKey:'r_sc',      unit:'',       fmt:(v,item)=>(((item.sugar*4)/(item.cal||1))*100).toFixed(1)+'% of cal' },
+  fat_cal:      { label:'Lowest Fat/Cal Ratio',     desc:'Fat as a % of total calories. Lower = leaner calorie source.',                                 sort:(a,b)=>(a.fat/(a.cal||1))-(b.fat/(b.cal||1)),                  statKey:'r_fatc',    unit:'',       fmt:(v,item)=>(((item.fat*9)/(item.cal||1))*100).toFixed(1)+'% of cal' },
+  // ── Composite ──
+  clean_score:  { label:'Best "Clean Meal" Score',  desc:'A weighted composite: protein (high = good), fiber (high = good), sugar (low = good), sodium (low = good), fat (low = good). Higher score = more well-rounded.', sort:(a,b)=>cleanScore(b)-cleanScore(a), statKey:'clean', unit:'', fmt:(v,item)=>cleanScore(item).toFixed(0)+' pts' },
 };
 
-function setFilterGoal(btn) {
-  document.querySelectorAll('.filter-goal-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  filterGoal = btn.dataset.goal;
+// Normalise a value 0–1 within the pool for composite scoring
+let _poolCache = null;
+function cleanScore(item) {
+  // weights: protein +3, fiber +2, sugar -2, sodium -1, fat -1
+  // Normalise each to 0–100 range using pre-computed pool min/max
+  if (!_poolCache) return 0;
+  const n = (val, min, max, invert) => {
+    if (max === min) return 50;
+    const pct = (val - min) / (max - min) * 100;
+    return invert ? 100 - pct : pct;
+  };
+  const p = _poolCache;
+  return (
+    n(item.protein, p.minProtein, p.maxProtein, false) * 3 +
+    n(item.fiber,   p.minFiber,   p.maxFiber,   false) * 2 +
+    n(item.sugar,   p.minSugar,   p.maxSugar,   true)  * 2 +
+    n(item.sodium,  p.minSodium,  p.maxSodium,  true)  * 1 +
+    n(item.fat,     p.minFat,     p.maxFat,     true)  * 1
+  );
+}
+
+function buildPoolCache(pool) {
+  _poolCache = {
+    minProtein: Math.min(...pool.map(i=>i.protein)), maxProtein: Math.max(...pool.map(i=>i.protein)),
+    minFiber:   Math.min(...pool.map(i=>i.fiber)),   maxFiber:   Math.max(...pool.map(i=>i.fiber)),
+    minSugar:   Math.min(...pool.map(i=>i.sugar)),   maxSugar:   Math.max(...pool.map(i=>i.sugar)),
+    minSodium:  Math.min(...pool.map(i=>i.sodium)),  maxSodium:  Math.max(...pool.map(i=>i.sodium)),
+    minFat:     Math.min(...pool.map(i=>i.fat)),     maxFat:     Math.max(...pool.map(i=>i.fat)),
+  };
+}
+
+function onFilterGoalChange() {
+  filterGoal = document.getElementById('filterGoalSelect').value;
+  const cfg = GOAL_CONFIG[filterGoal];
+  document.getElementById('filterGoalDesc').textContent = cfg.desc;
   runFilter();
 }
 
@@ -1592,55 +1832,116 @@ function setFilterType(btn) {
 
 function buildFilterPool() {
   const pool = [];
-  if (filterType === 'smoothies' || filterType === 'both') {
+  if (filterType === 'smoothies' || filterType === 'both')
     smoothies.forEach(s => pool.push({ ...s, _type:'smoothie', _cat:'Smoothie' }));
-  }
-  if (filterType === 'food' || filterType === 'both') {
+  if (filterType === 'food' || filterType === 'both')
     foodCategories.forEach(cat => cat.items.forEach(item => pool.push({ ...item, _type:'food', _cat: cat.name })));
-  }
   return pool;
+}
+
+// Context flag logic — gives each item a human-readable tag
+function getContextFlag(item, goal) {
+  const cal = item.cal || 1;
+  const isLowCal = cal < 300;
+  const isHighCal = cal > 500;
+  const sugarDensity = (item.sugar * 4) / cal; // sugar cals as % of total
+  const proteinDensity = (item.protein * 4) / cal;
+  const fiberPer100 = (item.fiber / cal) * 100;
+
+  // Goal-specific flags first
+  if (goal === 'sugar_low' || goal === 'sugar_cal') {
+    if (isLowCal && item.sugar < 15) return { text: '✅ Genuinely low sugar', cls: 'green' };
+    if (isLowCal && item.sugar >= 15) return { text: '⚠️ Low cal but sugar-dense', cls: 'yellow' };
+    if (sugarDensity > 0.5) return { text: '🔴 Sugar is >50% of calories', cls: 'red' };
+    if (sugarDensity < 0.2) return { text: '✅ Very low sugar density', cls: 'green' };
+  }
+  if (goal === 'cal_low') {
+    if (proteinDensity > 0.3) return { text: '💪 Protein-rich for its size', cls: 'green' };
+    if (sugarDensity > 0.4) return { text: '⚠️ Mostly sugar calories', cls: 'yellow' };
+    return { text: '🔵 Genuinely light option', cls: 'blue' };
+  }
+  if (goal === 'protein' || goal === 'protein_cal' || goal === 'protein_carb') {
+    if (isLowCal && proteinDensity > 0.35) return { text: '⚡ High protein, low cal', cls: 'green' };
+    if (isHighCal && proteinDensity > 0.25) return { text: '💪 Strong protein, calorie-dense', cls: 'yellow' };
+    if (proteinDensity > 0.3) return { text: '✅ Protein-efficient', cls: 'green' };
+  }
+  if (goal === 'fiber' || goal === 'fiber_cal') {
+    if (fiberPer100 > 3) return { text: '🌿 Exceptional fiber density', cls: 'green' };
+    if (isLowCal && item.fiber > 3) return { text: '✅ Good fiber for a light item', cls: 'green' };
+  }
+  if (goal === 'clean_score') {
+    if (isLowCal && proteinDensity > 0.25 && sugarDensity < 0.3) return { text: '🏆 Well-balanced & light', cls: 'green' };
+    if (isHighCal) return { text: '⚠️ High score but calorie-dense', cls: 'yellow' };
+    return { text: '✅ Strong overall profile', cls: 'green' };
+  }
+
+  // Generic fallbacks
+  if (isLowCal) return { text: '🔵 Low calorie item', cls: 'blue' };
+  if (isHighCal && proteinDensity > 0.2) return { text: '💪 Calorie-dense, protein-rich', cls: 'yellow' };
+  if (isHighCal) return { text: '⚠️ High calorie item', cls: 'yellow' };
+  return null;
+}
+
+function per100(val, cal) {
+  return cal > 0 ? (val / cal) * 100 : 0;
 }
 
 function runFilter() {
   const cfg = GOAL_CONFIG[filterGoal];
   const pool = buildFilterPool();
+  buildPoolCache(pool);
+  const per100Mode = document.getElementById('per100Toggle').checked;
 
-  // Add ratio field for protein/cal goal
-  pool.forEach(item => { item.ratio = item.cal > 0 ? item.protein / item.cal : 0; });
+  // In per-100-cal mode, re-sort using per-100-cal values for applicable goals
+  // Ratio goals already normalise by cal, so per100 only meaningfully applies to simple goals
+  const simplePer100Goals = ['protein','fiber','sugar_low','fat_low','sodium_low'];
+  let sorted;
+  if (per100Mode && simplePer100Goals.includes(filterGoal)) {
+    const isLower = ['sugar_low','fat_low','sodium_low'].includes(filterGoal);
+    sorted = [...pool].sort((a, b) => {
+      const va = per100(a[cfg.statKey] || 0, a.cal);
+      const vb = per100(b[cfg.statKey] || 0, b.cal);
+      return isLower ? va - vb : vb - va;
+    }).slice(0, 10);
+  } else {
+    sorted = [...pool].sort(cfg.sort).slice(0, 10);
+  }
 
-  const sorted = [...pool].sort(cfg.sort).slice(0, 10);
-
-  const title = document.getElementById('filterResultTitle');
-  const badge = document.getElementById('filterCountBadge');
-  title.textContent = cfg.label;
-  badge.textContent = sorted.length;
-
-  const rankLabels = ['1','2','3'];
-  const rankClasses = ['gold','silver','bronze'];
+  const modeLabel = per100Mode && simplePer100Goals.includes(filterGoal) ? ' (per 100 cal)' : '';
+  document.getElementById('filterResultTitle').textContent = cfg.label + modeLabel;
+  document.getElementById('filterCountBadge').textContent = sorted.length;
 
   document.getElementById('filterResults').innerHTML = sorted.map((item, i) => {
-    const rankCls = i < 3 ? rankClasses[i] : '';
-    const rankLabel = i < 3 ? ['🥇','🥈','🥉'][i] : `${i+1}`;
+    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}`;
+    const rankCls = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
 
-    const highlightVal = filterGoal === 'protein_cal'
-      ? `${(item.ratio * 100).toFixed(1)}g/100cal`
-      : `${Math.round(item[cfg.statKey])}${cfg.unit}`;
+    // Highlight value: per-100 if toggled for simple goals, otherwise normal
+    let highlightVal;
+    if (per100Mode && simplePer100Goals.includes(filterGoal) && cfg.statKey) {
+      const rawPer100 = per100(item[cfg.statKey] || 0, item.cal);
+      const unit = cfg.unit === 'mg' ? 'mg' : 'g';
+      highlightVal = `${rawPer100.toFixed(1)}${unit}/100cal`;
+    } else {
+      highlightVal = cfg.fmt(null, item);
+    }
 
-    return `
-      <div class="filter-result-item">
-        <div class="filter-result-rank ${rankCls}">${rankLabel}</div>
-        <div class="filter-result-info">
-          <div class="filter-result-name">${item.name}</div>
-          <div class="filter-result-cat">${item._cat}</div>
-          <div class="filter-result-stats">
-            <div class="filter-stat highlight"><strong>${highlightVal}</strong></div>
-            <div class="filter-stat"><strong>${Math.round(item.cal)}</strong> cal</div>
-            <div class="filter-stat"><strong>${Math.round(item.protein)}g</strong> protein</div>
-            <div class="filter-stat"><strong>${Math.round(item.sugar)}g</strong> sugar</div>
-            <div class="filter-stat"><strong>${Math.round(item.fiber)}g</strong> fiber</div>
-          </div>
+    const flag = getContextFlag(item, filterGoal);
+
+    return `<div class="filter-result-item">
+      <div class="filter-result-rank ${rankCls}">${medal}</div>
+      <div class="filter-result-info">
+        <div class="filter-result-name">${item.name}</div>
+        <div class="filter-result-cat">${item._cat}</div>
+        ${flag ? `<span class="filter-context-tag ${flag.cls}">${flag.text}</span>` : ''}
+        <div class="filter-result-stats" style="margin-top:4px;">
+          <div class="filter-stat highlight"><strong>${highlightVal}</strong></div>
+          <div class="filter-stat"><strong>${Math.round(item.cal)}</strong> cal</div>
+          <div class="filter-stat"><strong>${Math.round(item.protein)}g</strong> pro</div>
+          <div class="filter-stat"><strong>${Math.round(item.sugar)}g</strong> sugar</div>
+          <div class="filter-stat"><strong>${Math.round(item.fiber)}g</strong> fiber</div>
         </div>
-      </div>`;
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -1652,9 +1953,11 @@ if ('serviceWorker' in navigator) {
 }
 
 init();
+applyDarkMode();
 renderFavorites();
 loadGoalInputs();
 renderGoalBars();
+document.getElementById('filterGoalDesc').textContent = GOAL_CONFIG['protein'].desc;
 runFilter();
 
 // ── Legal Accordion ──
