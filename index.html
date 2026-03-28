@@ -847,28 +847,148 @@
         <p style="font-size:12px;color:var(--mid);margin-bottom:12px;line-height:1.5;">Pick a goal and menu type — top 10 ranked instantly.</p>
 
         <span class="field-label">Your Goal</span>
-        <select class="filter-goal-select" id="filterGoalSelect" onchange="onFilterGoalChange()">
-          <optgroup label="── Simple Goals ──">
-            <option value="protein">💪 Most Protein</option>
-            <option value="cal_low">🔥 Lowest Calories</option>
-            <option value="cal_high">🏋️ Highest Calories</option>
-            <option value="fiber">🌿 Most Fiber</option>
-            <option value="sugar_low">🚫 Lowest Sugar</option>
-            <option value="sodium_low">🧂 Lowest Sodium</option>
-            <option value="fat_low">🥗 Lowest Fat</option>
-          </optgroup>
-          <optgroup label="── Efficiency Ratios ──">
-            <option value="protein_cal">⚡ Best Protein/Cal Ratio</option>
-            <option value="protein_carb">🧬 Best Protein/Carb Ratio</option>
-            <option value="fiber_cal">🌾 Best Fiber/Cal Ratio</option>
-            <option value="sugar_cal">🩸 Lowest Sugar/Cal Ratio</option>
-            <option value="fat_cal">💧 Lowest Fat/Cal Ratio</option>
-          </optgroup>
-          <optgroup label="── Composite ──">
-            <option value="clean_score">🏆 Best "Clean Meal" Score</option>
-          </optgroup>
-        </select>
-        <div class="filter-goal-desc" id="filterGoalDesc"></div>
+        <div class="filter-accordion" id="filterAccordion">
+
+          <!-- Group 1: Simple Goals -->
+          <div class="acc-group open" id="accGroup-simple">
+            <div class="acc-header" onclick="toggleAccGroup('simple')">
+              <div class="acc-header-left">
+                <span class="acc-header-name">Simple Goals</span>
+                <span class="acc-badge" id="accBadge-simple"></span>
+              </div>
+              <span class="acc-chevron">▾</span>
+            </div>
+            <div class="acc-body">
+              <div class="goal-row selected" data-goal="protein" onclick="selectGoalRow('protein')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">💪 Most Protein</div>
+                  <div class="goal-row-desc">Ranked by total protein grams</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="cal_low" onclick="selectGoalRow('cal_low')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🔥 Lowest Calories</div>
+                  <div class="goal-row-desc">Fewest calories — calorie-controlled diets</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="cal_high" onclick="selectGoalRow('cal_high')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🏋️ Highest Calories</div>
+                  <div class="goal-row-desc">Most calories — bulking or high-energy days</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="fiber" onclick="selectGoalRow('fiber')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🌿 Most Fiber</div>
+                  <div class="goal-row-desc">Supports digestion, keeps you fuller longer</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="sugar_low" onclick="selectGoalRow('sugar_low')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🚫 Lowest Sugar</div>
+                  <div class="goal-row-desc">Fewest sugar grams — blood sugar management</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="sodium_low" onclick="selectGoalRow('sodium_low')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🧂 Lowest Sodium</div>
+                  <div class="goal-row-desc">Least sodium — heart health and blood pressure</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="fat_low" onclick="selectGoalRow('fat_low')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🥗 Lowest Fat</div>
+                  <div class="goal-row-desc">Fewest fat grams — low-fat dietary goals</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group 2: Efficiency Ratios -->
+          <div class="acc-group open" id="accGroup-ratios">
+            <div class="acc-header" onclick="toggleAccGroup('ratios')">
+              <div class="acc-header-left">
+                <span class="acc-header-name">Efficiency Ratios</span>
+                <span class="acc-badge" id="accBadge-ratios"></span>
+              </div>
+              <span class="acc-chevron">▾</span>
+            </div>
+            <div class="acc-body">
+              <div class="goal-row" data-goal="protein_cal" onclick="selectGoalRow('protein_cal')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">⚡ Best Protein/Cal Ratio</div>
+                  <div class="goal-row-desc">Grams of protein per 100 calories</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="protein_carb" onclick="selectGoalRow('protein_carb')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🧬 Best Protein/Carb Ratio</div>
+                  <div class="goal-row-desc">Protein ÷ carbs — low-carb and keto-adjacent</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="fiber_cal" onclick="selectGoalRow('fiber_cal')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🌾 Best Fiber/Cal Ratio</div>
+                  <div class="goal-row-desc">Fiber grams per 100 calories</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="sugar_cal" onclick="selectGoalRow('sugar_cal')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🩸 Lowest Sugar/Cal Ratio</div>
+                  <div class="goal-row-desc">Sugar as % of total calories</div>
+                </div>
+              </div>
+              <div class="goal-row" data-goal="fat_cal" onclick="selectGoalRow('fat_cal')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">💧 Lowest Fat/Cal Ratio</div>
+                  <div class="goal-row-desc">Fat as % of total calories</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Group 3: Composite -->
+          <div class="acc-group open" id="accGroup-composite">
+            <div class="acc-header" onclick="toggleAccGroup('composite')">
+              <div class="acc-header-left">
+                <span class="acc-header-name">Composite</span>
+                <span class="acc-badge" id="accBadge-composite"></span>
+              </div>
+              <span class="acc-chevron">▾</span>
+            </div>
+            <div class="acc-body">
+              <div class="goal-row" data-goal="clean_score" onclick="selectGoalRow('clean_score')">
+                <div class="goal-radio"><span class="goal-radio-check">✓</span></div>
+                <div class="goal-row-text">
+                  <div class="goal-row-name">🏆 Best "Clean Meal" Score</div>
+                  <div class="goal-row-desc">Weighted composite: protein, fiber, sugar, sodium, fat</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.filter-accordion -->
+
+        <!-- Per-100-cal toggle (simple goals only) -->
+        <div class="filter-per100-row" id="filterPer100Row">
+          <span class="per100-label">Per 100 cal</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="per100Toggle" onchange="runFilter()">
+            <div class="toggle-track"></div>
+          </label>
+        </div>
 
         <span class="field-label">Menu Type</span>
         <div class="filter-type-row" id="filterTypeRow">
@@ -884,13 +1004,6 @@
         <span class="card-header-icon">🏆</span>
         <span class="card-header-title" id="filterResultTitle">Top Results</span>
         <span class="filter-count-badge" id="filterCountBadge">10</span>
-        <div class="per100-toggle" style="margin-left:auto;">
-          <span class="per100-label">Per 100 cal</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="per100Toggle" onchange="runFilter()">
-            <div class="toggle-track"></div>
-          </label>
-        </div>
       </div>
       <div class="card-body" style="padding:0;" id="filterResults">
         <div class="filter-empty">Select a goal above to see results</div>
@@ -1995,10 +2108,62 @@ function buildPoolCache(pool) {
   };
 }
 
+function selectGoalRow(goal) {
+  filterGoal = goal;
+  // Update selected state on all goal rows
+  document.querySelectorAll('.goal-row').forEach(r => r.classList.remove('selected'));
+  const row = document.querySelector(`.goal-row[data-goal="${goal}"]`);
+  if (row) row.classList.add('selected');
+  // Update accordion badges
+  ['simple','ratios','composite'].forEach(g => {
+    const badge = document.getElementById(`accBadge-${g}`);
+    const group = document.getElementById(`accGroup-${g}`);
+    if (!badge || !group) return;
+    const activeRow = group.querySelector('.goal-row.selected');
+    if (activeRow && !group.classList.contains('open')) {
+      badge.textContent = activeRow.querySelector('.goal-row-name').textContent.replace(/^\S+\s/,'');
+      badge.style.display = 'inline-block';
+    } else {
+      badge.textContent = '';
+      badge.style.display = 'none';
+    }
+  });
+  // Show/hide per-100-cal toggle for simple goals only
+  const simplePer100Goals = ['protein','cal_low','cal_high','fiber','sugar_low','sodium_low','fat_low'];
+  const per100Row = document.getElementById('filterPer100Row');
+  if (per100Row) per100Row.style.display = simplePer100Goals.includes(goal) ? 'flex' : 'none';
+  runFilter();
+}
+
+function toggleAccGroup(groupId) {
+  const groups = ['simple','ratios','composite'];
+  groups.forEach(g => {
+    const el = document.getElementById(`accGroup-${g}`);
+    if (!el) return;
+    if (g === groupId) {
+      el.classList.toggle('open');
+    } else {
+      el.classList.remove('open');
+    }
+  });
+  // Update badges after toggling
+  groups.forEach(g => {
+    const badge = document.getElementById(`accBadge-${g}`);
+    const group = document.getElementById(`accGroup-${g}`);
+    if (!badge || !group) return;
+    const activeRow = group.querySelector('.goal-row.selected');
+    if (activeRow && !group.classList.contains('open')) {
+      badge.textContent = activeRow.querySelector('.goal-row-name').textContent.replace(/^\S+\s/,'');
+      badge.style.display = 'inline-block';
+    } else {
+      badge.textContent = '';
+      badge.style.display = 'none';
+    }
+  });
+}
+
 function onFilterGoalChange() {
-  filterGoal = document.getElementById('filterGoalSelect').value;
-  const cfg = GOAL_CONFIG[filterGoal];
-  document.getElementById('filterGoalDesc').textContent = cfg.desc;
+  // Legacy stub — replaced by selectGoalRow()
   runFilter();
 }
 
@@ -2136,7 +2301,11 @@ applyDarkMode();
 renderFavorites();
 loadGoalInputs();
 renderGoalBars();
-document.getElementById('filterGoalDesc').textContent = GOAL_CONFIG['protein'].desc;
+// Initialize per-100-cal toggle visibility (simple goals shown by default)
+(function() {
+  const per100Row = document.getElementById('filterPer100Row');
+  if (per100Row) per100Row.style.display = 'flex';
+})();
 runFilter();
 
 // ── Legal Accordion ──
