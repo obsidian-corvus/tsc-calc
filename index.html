@@ -2153,6 +2153,7 @@ function updatePer100Visibility() {
 function toggleAccGroup(groupId) {
   ['simple','ratios','composite'].forEach(function(id) {
     const el = document.getElementById('accGroup-' + id);
+    if (!el) return;
     if (id === groupId) {
       el.classList.toggle('open');
     } else {
