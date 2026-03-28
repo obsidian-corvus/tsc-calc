@@ -518,6 +518,89 @@
   .legal-body ul { margin: 8px 0 0 0; padding-left: 18px; }
   .legal-body ul li { margin-bottom: 6px; }
   .legal-effective { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--mid); margin-bottom: 10px; display: block; }
+
+  /* ── HIG Filter Accordion ── */
+  .filter-accordion { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; border-radius: 12px; overflow: hidden; border: 0.5px solid var(--light); }
+
+  .acc-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 11px 14px; background: var(--white); cursor: pointer;
+    user-select: none; border-bottom: 0.5px solid var(--light);
+    gap: 8px;
+  }
+  .acc-group:last-child .acc-header { border-bottom: none; }
+  .acc-group.open .acc-header { border-bottom: 0.5px solid var(--light); }
+
+  .acc-header-left { display: flex; align-items: center; gap: 8px; flex: 1; }
+  .acc-header-name {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--mid);
+  }
+  .acc-badge {
+    display: none; background: var(--teal); color: #ffffff; font-size: 10px;
+    font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+  }
+  .acc-badge.visible { display: inline-block; }
+
+  .acc-chevron {
+    font-size: 11px; color: var(--mid); transition: transform 0.2s;
+    display: inline-block;
+  }
+  .acc-group.open .acc-chevron { transform: rotate(180deg); }
+
+  .acc-body { display: none; }
+  .acc-group.open .acc-body { display: block; }
+
+  .goal-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; background: var(--white); cursor: pointer;
+    border-bottom: 0.5px solid var(--light);
+    transition: background 0.15s;
+  }
+  .acc-body .goal-row:last-child { border-bottom: none; }
+  .goal-row:active { background: #f0faf9; }
+  .goal-row.selected { background: #e8f5f3; }
+
+  .goal-radio {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--light); background: var(--white);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .goal-row.selected .goal-radio {
+    background: var(--teal); border-color: var(--teal);
+  }
+  .goal-radio-check {
+    display: none; color: #ffffff; font-size: 11px; font-weight: 700; line-height: 1;
+  }
+  .goal-row.selected .goal-radio-check { display: block; }
+
+  .goal-row-text { flex: 1; }
+  .goal-row-name { font-size: 13px; font-weight: 700; color: var(--dark); }
+  .goal-row-desc { font-size: 11px; color: var(--mid); margin-top: 1px; line-height: 1.4; }
+
+  /* Per-100-cal row inside filter card */
+  .filter-per100-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 2px; margin-bottom: 10px;
+  }
+  .filter-per100-row .per100-label {
+    font-size: 13px; font-weight: 500; color: var(--dark); letter-spacing: 0; text-transform: none;
+  }
+
+  /* Dark mode — accordion */
+  body.dark-mode .filter-accordion { border-color: #3a3a3a; }
+  body.dark-mode .acc-header { background: #2a2a2a; border-bottom-color: #3a3a3a; }
+  body.dark-mode .acc-header-name { color: #888; }
+  body.dark-mode .acc-group.open .acc-header { border-bottom-color: #3a3a3a; }
+  body.dark-mode .goal-row { background: #2a2a2a; border-bottom-color: #3a3a3a; }
+  body.dark-mode .goal-row:active { background: #222; }
+  body.dark-mode .goal-row.selected { background: #0a2e28; }
+  body.dark-mode .goal-radio { border-color: #3a3a3a; background: #2a2a2a; }
+  body.dark-mode .goal-row.selected .goal-radio { background: var(--teal); border-color: var(--teal); }
+  body.dark-mode .goal-row-name { color: #f0f0f0; }
+  body.dark-mode .goal-row-desc { color: #aaa; }
+  body.dark-mode .filter-per100-row .per100-label { color: #f0f0f0; }
 </style>
 </head>
 <body>
