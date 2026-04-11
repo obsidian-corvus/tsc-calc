@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git -C /c/Users/clark/OneDrive/Documents/GitHub/tsc-calc log -1 --stat)",
+      "Bash(bash \"C:\\\\Users\\\\clark\\\\.claude\\\\plugins\\\\cache\\\\claude-plugins-official\\\\superpowers\\\\5.0.2\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh\" --project-dir \"/c/Users/clark/OneDrive/Documents/GitHub/tsc-calc\")",
+      "Bash(git push:*)"
+    ]
+  }
+}

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Option C Detail</title>
+<script src="helper.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: system-ui, sans-serif; padding: 24px 16px 48px; color: #f0f0f0; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 24px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 700px) { .split { grid-template-columns: 1fr; } }
+
+  .panel { background: #1a1a1a; border-radius: 14px; overflow: hidden; }
+  .panel-label { padding: 10px 14px; background: #222; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #666; border-bottom: 1px solid #2a2a2a; }
+
+  /* card header */
+  .food-header { padding: 12px 16px; background: #6a1b9a; display: flex; align-items: center; gap: 10px; }
+  .food-header-icon { font-size: 18px; }
+  .food-header-title { font-family: serif; font-size: 18px; letter-spacing: 1px; color: #fff; font-weight: 700; }
+
+  .food-body { padding: 10px; }
+
+  /* view toggle */
+  .toggle { display: flex; background: #2a2a2a; border-radius: 8px; padding: 2px; margin-bottom: 10px; }
+  .toggle-btn { flex: 1; padding: 7px; text-align: center; font-size: 11px; font-weight: 700; border-radius: 6px; color: #888; }
+  .toggle-btn.active { background: #3a3a3a; color: #f0f0f0; }
+
+  /* category pill */
+  .cat-pill { display: flex; align-items: center; justify-content: space-between; padding: 7px 11px; background: #222; border: 0.5px solid #333; border-radius: 8px; margin-bottom: 3px; cursor: pointer; user-select: none; }
+  .cat-pill.open { border-color: #444; border-radius: 8px 8px 0 0; margin-bottom: 0; }
+  .cat-pill-left { display: flex; align-items: center; gap: 8px; }
+  .cat-name { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #666; }
+  .cat-pill.open .cat-name { color: #aaa; }
+  .sel-badge { background: #00897b; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+  .cat-right { font-size: 10px; color: #444; }
+
+  /* item list */
+  .item-list { background: #1e1e1e; border: 0.5px solid #333; border-top: none; border-radius: 0 0 8px 8px; margin-bottom: 6px; overflow: hidden; }
+  .item-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-bottom: 0.5px solid #272727; cursor: pointer; transition: background 0.12s; }
+  .item-row:last-child { border-bottom: none; }
+  .item-row:active { background: #252525; }
+  .item-name { font-size: 13px; color: #d0d0d0; }
+  .item-cal { font-size: 11px; color: #555; background: #2a2a2a; padding: 2px 7px; border-radius: 4px; }
+
+  /* selected state */
+  .item-row.sel { background: #0a2e28; }
+  .item-row.sel .item-name { color: #4db6ac; font-weight: 600; }
+  .item-row.sel .item-cal { background: #0d3d32; color: #4db6ac; }
+  .item-check { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #3a3a3a; background: #2a2a2a; flex-shrink: 0; margin-right: 8px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: transparent; }
+  .item-row.sel .item-check { background: #00897b; border-color: #00897b; color: #fff; }
+
+  .closed-pill { margin-bottom: 6px; }
+
+  /* selected food tags */
+  .sel-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .sel-tag { background: #0d3d32; color: #4db6ac; font-size: 11px; padding: 3px 9px 3px 7px; border-radius: 12px; display: flex; align-items: center; gap: 4px; }
+  .sel-tag-x { color: #4db6ac; opacity: 0.6; font-size: 10px; cursor: pointer; }
+
+  .note { font-size: 11px; color: #555; text-align: center; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<h2>Option C — Compact Rows + Pill Headers</h2>
+<p class="subtitle">Multi-select already works in the code — this shows how it surfaces in the new UI</p>
+
+<div class="split">
+
+  <!-- State 1: nothing selected -->
+  <div class="panel">
+    <div class="panel-label">Before — nothing selected</div>
+    <div class="food-header">
+      <span class="food-header-icon">🍔</span>
+      <span class="food-header-title">Step 3 — Add Food (Optional)</span>
+    </div>
+    <div class="food-body">
+      <div class="toggle">
+        <div class="toggle-btn active">By Category</div>
+        <div class="toggle-btn">Search</div>
+      </div>
+
+      <div class="cat-pill open">
+        <div class="cat-pill-left">
+          <span class="cat-name">Bowls</span>
+        </div>
+        <span class="cat-right">9 items ▲</span>
+      </div>
+      <div class="item-list">
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Acai Bowl</span>
+          <span class="item-cal">560</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Acai Bowl w/ NUTELLA</span>
+          <span class="item-cal">710</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Bahama Mama Bowl</span>
+          <span class="item-cal">400</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Dragon Fruit Bowl</span>
+          <span class="item-cal">460</span>
+        </div>
+      </div>
+
+      <div class="cat-pill closed-pill">
+        <div class="cat-pill-left"><span class="cat-name">Breakfast</span></div>
+        <span class="cat-right">6 items ▼</span>
+      </div>
+      <div class="cat-pill closed-pill">
+        <div class="cat-pill-left"><span class="cat-name">Wraps</span></div>
+        <span class="cat-right">8 items ▼</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- State 2: 2 items selected across 2 categories -->
+  <div class="panel">
+    <div class="panel-label">After — 2 items selected across categories</div>
+    <div class="food-header">
+      <span class="food-header-icon">🍔</span>
+      <span class="food-header-title">Step 3 — Add Food (Optional)</span>
+    </div>
+    <div class="food-body">
+      <div class="toggle">
+        <div class="toggle-btn active">By Category</div>
+        <div class="toggle-btn">Search</div>
+      </div>
+
+      <div class="cat-pill open">
+        <div class="cat-pill-left">
+          <span class="cat-name">Bowls</span>
+          <span class="sel-badge">1 selected</span>
+        </div>
+        <span class="cat-right">9 items ▲</span>
+      </div>
+      <div class="item-list">
+        <div class="item-row sel">
+          <div class="item-check">✓</div>
+          <span class="item-name">Acai Bowl</span>
+          <span class="item-cal">560</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Acai Bowl w/ NUTELLA</span>
+          <span class="item-cal">710</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Bahama Mama Bowl</span>
+          <span class="item-cal">400</span>
+        </div>
+        <div class="item-row">
+          <div class="item-check"></div>
+          <span class="item-name">Dragon Fruit Bowl</span>
+          <span class="item-cal">460</span>
+        </div>
+      </div>
+
+      <div class="cat-pill closed-pill">
+        <div class="cat-pill-left">
+          <span class="cat-name">Breakfast</span>
+          <span class="sel-badge">1 selected</span>
+        </div>
+        <span class="cat-right">6 items ▼</span>
+      </div>
+      <div class="cat-pill closed-pill">
+        <div class="cat-pill-left"><span class="cat-name">Wraps</span></div>
+        <span class="cat-right">8 items ▼</span>
+      </div>
+
+      <div class="sel-tags">
+        <div class="sel-tag">🥣 Acai Bowl <span class="sel-tag-x">✕</span></div>
+        <div class="sel-tag">🌅 Sunrise Flatbread <span class="sel-tag-x">✕</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="note">Left: default state &nbsp;·&nbsp; Right: 2 items selected across different categories — badge shows count per category, tags show full selection below</p>
+
+</body>
+</html>

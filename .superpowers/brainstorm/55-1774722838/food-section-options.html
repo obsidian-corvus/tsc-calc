@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Section Options</title>
+<script src="helper.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #111; font-family: 'DM Sans', system-ui, sans-serif; padding: 24px 16px 48px; color: #f0f0f0; }
+
+  h2 { font-size: 18px; font-weight: 700; color: #f0f0f0; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 24px; }
+
+  .options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  @media (max-width: 900px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .option-wrap { display: flex; flex-direction: column; gap: 0; border-radius: 14px; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; }
+  .option-wrap:hover { border-color: #00897b; }
+  .option-wrap.selected { border-color: #00897b; }
+
+  .option-label { background: #1e1e1e; padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a2a2a; }
+  .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #2a2a2a; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #aaa; flex-shrink: 0; }
+  .option-wrap.selected .option-letter { background: #00897b; color: #fff; }
+  .option-title { font-size: 14px; font-weight: 700; color: #f0f0f0; }
+  .option-desc { font-size: 11px; color: #888; margin-top: 2px; }
+
+  .mockup { background: #1a1a1a; padding: 12px; }
+
+  /* ── OPTION A: HIG Grouped List ── */
+  .a-toggle { display: flex; background: #2a2a2a; border-radius: 8px; padding: 2px; margin-bottom: 10px; }
+  .a-toggle-btn { flex: 1; padding: 6px; text-align: center; font-size: 11px; font-weight: 700; border-radius: 6px; color: #888; }
+  .a-toggle-btn.active { background: #3a3a3a; color: #f0f0f0; }
+
+  .a-group { border-radius: 10px; overflow: hidden; border: 0.5px solid #3a3a3a; margin-bottom: 8px; }
+  .a-cat-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #2a2a2a; cursor: pointer; }
+  .a-cat-name { font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #888; }
+  .a-chevron { font-size: 11px; color: #555; }
+  .a-rows { background: #242424; }
+  .a-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-bottom: 0.5px solid #2e2e2e; }
+  .a-row:last-child { border-bottom: none; }
+  .a-row-name { font-size: 13px; color: #e0e0e0; font-weight: 500; }
+  .a-row-cal { font-size: 12px; color: #666; }
+  .a-row.sel { background: #0a2e28; }
+  .a-row.sel .a-row-name { color: #4db6ac; }
+  .a-row.sel .a-row-cal { color: #4db6ac; opacity: 0.7; }
+
+  /* ── OPTION B: Refined Cards ── */
+  .b-toggle { display: flex; background: #2a2a2a; border-radius: 8px; padding: 2px; margin-bottom: 10px; }
+  .b-toggle-btn { flex: 1; padding: 6px; text-align: center; font-size: 11px; font-weight: 700; border-radius: 6px; color: #888; }
+  .b-toggle-btn.active { background: #3a3a3a; color: #f0f0f0; }
+
+  .b-cat-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 4px 6px; margin-top: 4px; }
+  .b-cat-name { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  .b-cat-arrow { font-size: 11px; color: #555; }
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 4px; }
+  .b-card { background: #252525; border: 1px solid #333; border-radius: 10px; padding: 10px 12px; position: relative; }
+  .b-card-name { font-size: 12px; font-weight: 600; color: #e0e0e0; margin-bottom: 2px; }
+  .b-card-cal { font-size: 11px; color: #666; }
+  .b-card.sel { background: #1a0d2e; border-color: #7b1fa2; }
+  .b-card.sel .b-card-name { color: #ce93d8; }
+  .b-card.sel::after { content: '✓'; position: absolute; top: 6px; right: 9px; color: #9c4dcc; font-weight: 700; font-size: 11px; }
+  .b-divider { height: 0.5px; background: #2a2a2a; margin: 4px 0; }
+
+  /* ── OPTION C: Compact Rows + Pill Headers ── */
+  .c-toggle { display: flex; background: #2a2a2a; border-radius: 8px; padding: 2px; margin-bottom: 10px; }
+  .c-toggle-btn { flex: 1; padding: 6px; text-align: center; font-size: 11px; font-weight: 700; border-radius: 6px; color: #888; }
+  .c-toggle-btn.active { background: #3a3a3a; color: #f0f0f0; }
+
+  .c-cat-pill { display: flex; align-items: center; justify-content: space-between; padding: 5px 10px; background: #1e1e1e; border: 0.5px solid #3a3a3a; border-radius: 6px; margin-bottom: 4px; cursor: pointer; }
+  .c-cat-name { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #666; }
+  .c-cat-count { font-size: 10px; color: #444; }
+  .c-cat-pill.open .c-cat-name { color: #00897b; }
+
+  .c-list { background: #222; border-radius: 0 0 8px 8px; border: 0.5px solid #2e2e2e; border-top: none; margin-bottom: 8px; overflow: hidden; }
+  .c-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 0.5px solid #2a2a2a; }
+  .c-item:last-child { border-bottom: none; }
+  .c-item-name { font-size: 12px; color: #d0d0d0; }
+  .c-item-cal { font-size: 11px; color: #555; padding: 2px 6px; background: #2a2a2a; border-radius: 4px; }
+  .c-item.sel { background: #0a2e28; }
+  .c-item.sel .c-item-name { color: #4db6ac; }
+  .c-item.sel .c-item-cal { background: #0d3d32; color: #4db6ac; }
+
+  .selected-badge { display: inline-block; background: #00897b; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<h2>Food Section Redesign</h2>
+<p class="subtitle">Three directions for category headers + food items — click to select your preference</p>
+
+<div class="options-grid">
+
+  <!-- OPTION A -->
+  <div class="option-wrap" data-choice="a" onclick="toggleSelect(this)">
+    <div class="option-label">
+      <div class="option-letter">A</div>
+      <div>
+        <div class="option-title">HIG Grouped List</div>
+        <div class="option-desc">Rows instead of cards — consistent with Filter tab</div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="a-toggle">
+        <div class="a-toggle-btn active">By Category</div>
+        <div class="a-toggle-btn">Search</div>
+      </div>
+      <div class="a-group">
+        <div class="a-cat-header">
+          <span class="a-cat-name">Bowls</span>
+          <span class="a-chevron">▾</span>
+        </div>
+        <div class="a-rows">
+          <div class="a-row sel">
+            <span class="a-row-name">Acai Bowl</span>
+            <span class="a-row-cal">560 cal</span>
+          </div>
+          <div class="a-row">
+            <span class="a-row-name">Bahama Mama Bowl</span>
+            <span class="a-row-cal">400 cal</span>
+          </div>
+          <div class="a-row">
+            <span class="a-row-name">Dragon Fruit Bowl</span>
+            <span class="a-row-cal">460 cal</span>
+          </div>
+        </div>
+      </div>
+      <div class="a-group">
+        <div class="a-cat-header">
+          <span class="a-cat-name">Breakfast</span>
+          <span class="a-chevron">▾</span>
+        </div>
+      </div>
+      <div class="a-group">
+        <div class="a-cat-header">
+          <span class="a-cat-name">Wraps</span>
+          <span class="a-chevron">▾</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="option-wrap" data-choice="b" onclick="toggleSelect(this)">
+    <div class="option-label">
+      <div class="option-letter">B</div>
+      <div>
+        <div class="option-title">Refined Cards</div>
+        <div class="option-desc">Same grid, better styling + hierarchy</div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="b-toggle">
+        <div class="b-toggle-btn active">By Category</div>
+        <div class="b-toggle-btn">Search</div>
+      </div>
+      <div class="b-cat-header">
+        <span class="b-cat-name">Bowls</span>
+        <span class="b-cat-arrow">▲</span>
+      </div>
+      <div class="b-grid">
+        <div class="b-card sel">
+          <div class="b-card-name">Acai Bowl</div>
+          <div class="b-card-cal">560 cal</div>
+        </div>
+        <div class="b-card">
+          <div class="b-card-name">Acai Bowl w/ NUTELLA</div>
+          <div class="b-card-cal">710 cal</div>
+        </div>
+        <div class="b-card">
+          <div class="b-card-name">Bahama Mama Bowl</div>
+          <div class="b-card-cal">400 cal</div>
+        </div>
+        <div class="b-card">
+          <div class="b-card-name">Dragon Fruit Bowl</div>
+          <div class="b-card-cal">460 cal</div>
+        </div>
+      </div>
+      <div class="b-divider"></div>
+      <div class="b-cat-header">
+        <span class="b-cat-name">Breakfast</span>
+        <span class="b-cat-arrow">▼</span>
+      </div>
+      <div class="b-divider"></div>
+      <div class="b-cat-header">
+        <span class="b-cat-name">Wraps</span>
+        <span class="b-cat-arrow">▼</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="option-wrap" data-choice="c" onclick="toggleSelect(this)">
+    <div class="option-label">
+      <div class="option-letter">C</div>
+      <div>
+        <div class="option-title">Compact Rows + Pill Headers</div>
+        <div class="option-desc">Dense, scannable list — max items visible</div>
+      </div>
+    </div>
+    <div class="mockup">
+      <div class="c-toggle">
+        <div class="c-toggle-btn active">By Category</div>
+        <div class="c-toggle-btn">Search</div>
+      </div>
+      <div class="c-cat-pill open">
+        <span class="c-cat-name">Bowls <span class="selected-badge">1 selected</span></span>
+        <span class="c-cat-count">9 items ▲</span>
+      </div>
+      <div class="c-list">
+        <div class="c-item sel">
+          <span class="c-item-name">Acai Bowl</span>
+          <span class="c-item-cal">560</span>
+        </div>
+        <div class="c-item">
+          <span class="c-item-name">Acai Bowl w/ NUTELLA</span>
+          <span class="c-item-cal">710</span>
+        </div>
+        <div class="c-item">
+          <span class="c-item-name">Bahama Mama Bowl</span>
+          <span class="c-item-cal">400</span>
+        </div>
+        <div class="c-item">
+          <span class="c-item-name">Dragon Fruit Bowl</span>
+          <span class="c-item-cal">460</span>
+        </div>
+      </div>
+      <div class="c-cat-pill">
+        <span class="c-cat-name">Breakfast</span>
+        <span class="c-cat-count">6 items ▼</span>
+      </div>
+      <div class="c-cat-pill">
+        <span class="c-cat-name">Wraps</span>
+        <span class="c-cat-count">8 items ▼</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
