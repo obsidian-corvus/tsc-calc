@@ -10,6 +10,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>TSC Nutrition Calculator</title>
+<meta name="description" content="Build your Tropical Smoothie Cafe order and see full nutrition facts instantly — smoothies, food, add-ins, FDA-style label, goals and comparisons.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
@@ -1071,7 +1072,7 @@
         <div class="about-row"><span class="lbl">Supplements</span><span class="val">9 items</span></div>
         <div class="about-row"><span class="lbl">Fresh Add-ins</span><span class="val">6 items</span></div>
         <div class="about-row"><span class="lbl">Works Offline</span><span class="val">✅ Yes</span></div>
-        <div class="about-row"><span class="lbl">Version</span><span class="val">3.0</span></div>
+        <div class="about-row"><span class="lbl">Version</span><span class="val">3.1</span></div>
         <div class="about-note">Nutritional values are based on standard serving sizes. Values may vary. Always consult the in-store nutrition guide for the most current info.</div>
       </div>
     </div>
@@ -1445,7 +1446,7 @@ function filterFood() {
   if (!q) return;
   allFoodItems.filter(f => f.name.toLowerCase().includes(q)).forEach(f => {
     const card = document.createElement('div');
-    card.className = 'addin-card' + (selectedFood && selectedFood.catIdx === f.catIdx && selectedFood.itemIdx === f.itemIdx ? ' food-selected' : '');
+    card.className = 'addin-card' + (selectedFood.has(`${f.catIdx}_${f.itemIdx}`) ? ' food-selected' : '');
     card.innerHTML = `<div class="addin-name">${f.name}</div><div class="addin-cal">${f.cal} cal · ${f.catName}</div>`;
     card.onclick = () => {
       const fkey = `${f.catIdx}_${f.itemIdx}`;
@@ -1665,6 +1666,10 @@ function resetAll() {
 // ══════════════════════════════════════════════════════
 function generateShareCard() {
   if (!lastTotals) return;
+  if (typeof html2canvas === 'undefined') {
+    showToast('⚠️ Share card needs an internet connection');
+    return;
+  }
   const t = lastTotals;
 
   document.getElementById('scDate').textContent = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
@@ -1840,10 +1845,13 @@ function toggleDarkMode() {
 // ══════════════════════════════════════════════════════
 let smoothieSize = 24; // default 24oz
 
+function applySize(sz) {
+  smoothieSize = sz;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.size) === sz));
+}
+
 function setSize(btn) {
-  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  smoothieSize = parseInt(btn.dataset.size);
+  applySize(parseInt(btn.dataset.size));
   // re-run preview and recalculate if smoothie selected
   onSmoothieChange();
   if (lastTotals !== null) calculate();
@@ -1915,6 +1923,11 @@ function drawMacroChart(t) {
 // ══════════════════════════════════════════════════════
 let favorites = JSON.parse(localStorage.getItem('tsc_favorites') || '[]');
 
+// User-entered favorite names go into innerHTML — escape them.
+function escHTML(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function saveFavorite() {
   if (!lastTotals) return;
   const name = prompt('Name this order:', lastOrderName);
@@ -1925,6 +1938,7 @@ function saveFavorite() {
     sub: lastOrderSub,
     totals: { ...lastTotals },
     smoothieIdx: document.getElementById('smoothieSelect').value,
+    size: smoothieSize,
     addinKeys: [...selectedAddins],
     foodKeys: [...selectedFood],
   };
@@ -1942,8 +1956,8 @@ function renderFavorites() {
   }
   list.innerHTML = favorites.map(f => `
     <div class="fav-item">
-      <div class="fav-item-name">${f.name}</div>
-      <div class="fav-item-sub">${f.sub || 'No add-ins'}</div>
+      <div class="fav-item-name">${escHTML(f.name)}</div>
+      <div class="fav-item-sub">${escHTML(f.sub || 'No add-ins')}</div>
       <div class="fav-item-macros">
         <div class="fav-macro"><strong>${Math.round(f.totals.cal)}</strong> cal</div>
         <div class="fav-macro"><strong>${Math.round(f.totals.protein)}g</strong> protein</div>
@@ -1962,6 +1976,7 @@ function loadFavorite(id) {
   const fav = favorites.find(f => f.id === id);
   if (!fav) return;
   resetAll();
+  applySize(fav.size || 24);
   if (fav.smoothieIdx !== '') {
     document.getElementById('smoothieSelect').value = fav.smoothieIdx;
     onSmoothieChange();
@@ -2053,9 +2068,6 @@ function renderGoalBars() {
 }
 
 // ══════════════════════════════════════════════════════
-// SMART RECOMMENDER
-// ══════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════
 // SMART FILTER
 // ══════════════════════════════════════════════════════
 let filterGoal = 'protein';
@@ -2111,15 +2123,10 @@ function buildPoolCache(pool) {
   };
 }
 
-const SIMPLE_GOALS = ['protein','cal_low','cal_high','fiber','sugar_low','sodium_low','fat_low'];
-
-const GOAL_GROUP = {
-  protein:'simple', cal_low:'simple', cal_high:'simple', fiber:'simple',
-  sugar_low:'simple', sodium_low:'simple', fat_low:'simple',
-  protein_cal:'ratios', protein_carb:'ratios', fiber_cal:'ratios',
-  sugar_cal:'ratios', fat_cal:'ratios',
-  clean_score:'composite'
-};
+// Goals where the per-100-cal toggle actually changes the ranking.
+// (cal_low/cal_high are excluded — "calories per 100 calories" is meaningless;
+// ratio and composite goals already normalise by calories.)
+const PER100_GOALS = ['protein','fiber','sugar_low','fat_low','sodium_low'];
 
 function selectGoalRow(value) {
   document.querySelectorAll('#filterAccordion .goal-row').forEach(r => r.classList.remove('selected'));
@@ -2150,7 +2157,7 @@ function updateAccordionBadges() {
 function updatePer100Visibility() {
   const row = document.getElementById('filterPer100Row');
   if (!row) return;
-  row.style.display = SIMPLE_GOALS.includes(filterGoal) ? 'flex' : 'none';
+  row.style.display = PER100_GOALS.includes(filterGoal) ? 'flex' : 'none';
 }
 
 function toggleAccGroup(groupId) {
@@ -2164,11 +2171,6 @@ function toggleAccGroup(groupId) {
     }
   });
   updateAccordionBadges();
-}
-
-function onFilterGoalChange() {
-  // Legacy stub — replaced by selectGoalRow()
-  runFilter();
 }
 
 function setFilterType(btn) {
@@ -2241,10 +2243,8 @@ function runFilter() {
   const per100Mode = document.getElementById('per100Toggle').checked;
 
   // In per-100-cal mode, re-sort using per-100-cal values for applicable goals
-  // Ratio goals already normalise by cal, so per100 only meaningfully applies to simple goals
-  const simplePer100Goals = ['protein','fiber','sugar_low','fat_low','sodium_low'];
   let sorted;
-  if (per100Mode && simplePer100Goals.includes(filterGoal)) {
+  if (per100Mode && PER100_GOALS.includes(filterGoal)) {
     const isLower = ['sugar_low','fat_low','sodium_low'].includes(filterGoal);
     sorted = [...pool].sort((a, b) => {
       const va = per100(a[cfg.statKey] || 0, a.cal);
@@ -2255,7 +2255,7 @@ function runFilter() {
     sorted = [...pool].sort(cfg.sort).slice(0, 10);
   }
 
-  const modeLabel = per100Mode && simplePer100Goals.includes(filterGoal) ? ' (per 100 cal)' : '';
+  const modeLabel = per100Mode && PER100_GOALS.includes(filterGoal) ? ' (per 100 cal)' : '';
   document.getElementById('filterResultTitle').textContent = cfg.label + modeLabel;
   document.getElementById('filterCountBadge').textContent = sorted.length;
 
@@ -2265,7 +2265,7 @@ function runFilter() {
 
     // Highlight value: per-100 if toggled for simple goals, otherwise normal
     let highlightVal;
-    if (per100Mode && simplePer100Goals.includes(filterGoal) && cfg.statKey) {
+    if (per100Mode && PER100_GOALS.includes(filterGoal) && cfg.statKey) {
       const rawPer100 = per100(item[cfg.statKey] || 0, item.cal);
       const unit = cfg.unit === 'mg' ? 'mg' : 'g';
       highlightVal = `${rawPer100.toFixed(1)}${unit}/100cal`;
