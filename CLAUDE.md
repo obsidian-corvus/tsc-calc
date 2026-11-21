@@ -2,7 +2,7 @@
 
 ## Project Overview
 Restaurant Nutrition Calculator PWA built under **Obsidian Corvus Strategy LLC** (Florida LLC).
-- Live: https://obsidian-corvus.github.io/tsc-calc/
+- Live: https://obsidian-corvus.github.io/tsc-calc/ (custom domain via CNAME: https://calc.obsidiancorvus.com)
 - GitHub: https://github.com/obsidian-corvus/tsc-calc
 - IP owned by OCS LLC; provisional patent grace period starts March 7, 2026
 
@@ -17,6 +17,8 @@ Restaurant Nutrition Calculator PWA built under **Obsidian Corvus Strategy LLC**
 All TSC nutrition data hardcoded in `index.html` as JS arrays: `smoothies[]`, `foodCategories[]`, `supplements[]`, `freshAddins[]`.
 Each item: `name, cal, fat, satFat, trans, chol, sodium, carb, fiber, sugar, protein`
 Source: TSC Nutrition Guide dated 11/06/25.
+
+⚠️ **Open data question (pending verification against source guide — do NOT change values until resolved):** several `fat` values in `smoothies[]`, `supplements[]`, and `freshAddins[]` appear to be *calories from fat* rather than grams (e.g. Chia Banana Boost `fat:234` on 680 cal; freshAddins Peanut Butter `fat:126` vs the identical food item Peanut Butter Drizzle `fat:14`). `foodCategories[]` fat values look like true grams. See `docs/revitalization-log-2026-11-21.md`.
 
 ## Feature Status (v3.0 — complete)
 Builder, Smoothie Size Toggle, FDA Label, Macro Donut Chart, Favorites/Saved Orders, Goal Mode, Smart Filter (13 goals + Clean Meal Score), Per-100-Cal Toggle, Context Flags, Compare Mode, Dark Mode, Share Card (html2canvas), Legal Pages (Privacy Policy, ToS, Disclaimer in About tab)
@@ -55,8 +57,8 @@ Keep the app's current personality (teal + orange color system, dark header, Beb
 
 | Tab | Priority | Status |
 |-----|----------|--------|
-| Filter — accordion goal selector | **High** | 🔨 In progress |
-| Builder — grouped list add-ins | High | ⏳ Pending |
+| Filter — accordion goal selector | **High** | ✅ Shipped (v3.1) |
+| Builder — grouped list add-ins / food redesign | High | ⏳ Pending — spec at `docs/superpowers/specs/2026-03-28-food-section-redesign.md` |
 | Label — macro donut + dark header | Medium | ⏳ Pending |
 | Saved — grouped list rows | Medium | ⏳ Pending |
 | Goals — grouped input rows | Low | ⏳ Pending |
