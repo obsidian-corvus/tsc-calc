@@ -1,0 +1,18 @@
+# Prompt for Ledger — paste everything below the line
+
+---
+
+Ledger — we're reviving Obsidian Corvus. A full technical revitalization pass on TSC Calc just finished (2026-11-21), and I need you caught up and ready to drive the business side again.
+
+**Context refresh:** TSC Calc is the Tropical Smoothie Cafe nutrition calculator PWA under Obsidian Corvus Strategy LLC (Florida). Live at https://obsidian-corvus.github.io/tsc-calc/ with custom domain calc.obsidiancorvus.com (CNAME committed 2026-04-04 — liveness unverified). Last real progress was 2026-03-28 (v3.1 HIG Filter accordion shipped); the project then went quiet for ~7 months.
+
+**What the technical pass just did** (full detail in `docs/revitalization-log-2026-11-21.md` in the repo):
+1. Fixed a critical service-worker bug — installed PWA users were permanently pinned to the first version they ever loaded. Every deploy from now on bumps a cache VERSION so updates actually propagate.
+2. Fixed functional bugs: saved favorites ignored smoothie size (wrong calories on reload), food search didn't show selected items, unescaped user input in favorites, share-card crash when offline, per-100-cal toggle shown where it did nothing.
+3. Repo hygiene: removed accidentally committed session logs/local settings from the public repo, added .gitignore, corrected version labels to v3.1, updated the project docs to reflect that the Filter accordion is shipped and the approved food-section redesign is the next feature in queue.
+
+**The one thing I need from you first — data verification.** The review found strong evidence that the `fat` column for smoothies, supplements, and fresh add-ins in the app was entered as *calories from fat* instead of *grams of fat*. The tell: the identical peanut butter add-on appears in the data twice — once as `fat:126` and once as `fat:14` for the same 180-calorie item (126 fat-calories ÷ 9 = 14g). Chia Banana Boost shows `fat:234` on a 680-calorie smoothie, which is physically impossible as grams. The food-menu items look correct. Several smoothie protein values (e.g. Mocha Madness at 105g) also look implausible. You should have the source material for this — the TSC Nutrition Guide dated 11/06/25 that the data was transcribed from. Please check the guide's column layout (older TSC guides listed "Calories from Fat" next to "Total Fat (g)") and confirm or refute the transcription error for smoothies/supplements/add-ins. If confirmed, the fix is mechanical (divide by 9, spot-check protein) but it must be driven by the source document, not estimated — that's a hard project rule. This blocks any B2B pitch: the FDA-style label is the product, and it's currently overstating fat for most smoothies.
+
+**Then, help me restart the business plan.** Where we left off: v3.1 UI rebuild mid-flight (food-section redesign next, spec approved), Railway backend proxy planned but unbuilt (the published Privacy Policy already mentions the AI proxy feature — reality needs to catch up or the policy needs trimming), provisional patent grace period starts March 7, 2026 (now behind us — verify what was or wasn't filed and what that means), B2B direct-to-chain pitches as primary monetization, PDF-upload approach for multi-restaurant expansion. Please: (1) rebuild the priority stack for the next 90 days across product, legal/IP, and revenue, (2) flag anything time-sensitive we may have blown past during the gap — the patent date being the obvious one, plus LLC annual report/registered agent renewals for a Florida LLC, (3) tell me what you need from me to verify the nutrition data question above.
+
+Treat the technical side as healthy and unblocked except for the data verification. Let's get back to work.
