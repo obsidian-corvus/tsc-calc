@@ -1,6 +1,6 @@
 // Bump VERSION on every deploy that changes index.html —
 // it is what invalidates the old cache for installed users.
-const VERSION = 'v3.1.2';
+const VERSION = 'v3.1.3';
 const CACHE_NAME = 'tsc-calc-' + VERSION;
 
 const PRECACHE = [

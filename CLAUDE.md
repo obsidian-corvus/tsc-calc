@@ -18,7 +18,7 @@ All TSC nutrition data hardcoded in `index.html` as JS arrays: `smoothies[]`, `f
 Each item: `name, cal, fat, satFat, trans, chol, sodium, carb, fiber, sugar, protein`
 Source: TSC Nutrition Guide dated 11/06/25.
 
-⚠️ **Open data question (pending verification against source guide — do NOT change values until resolved):** several `fat` values in `smoothies[]`, `supplements[]`, and `freshAddins[]` appear to be *calories from fat* rather than grams (e.g. Chia Banana Boost `fat:234` on 680 cal; freshAddins Peanut Butter `fat:126` vs the identical food item Peanut Butter Drizzle `fat:14`). `foodCategories[]` fat values look like true grams. See `docs/revitalization-log-2026-11-21.md`.
+✅ **Data question resolved 2026-11-22:** `smoothies[]`, `supplements[]` and `freshAddins[]` were re-transcribed from the TSC Nutrition Guide dated 11/06/25. The old rows had shifted columns (Calories from Fat stored as `fat`, Total Fat as `satFat`, Sugars with Splenda as `protein`, and so on). Guide column order: Calories, Calories w/ Splenda, Calories from Fat, Total Fat, Sat Fat, Trans Fat, Cholesterol, Sodium, Total Carb, Total Carb w/ Splenda, Fiber, Sugars, Sugars w/ Splenda, Protein, Caffeine. The app uses the non-Splenda columns only. `foodCategories[]` was not changed.
 
 ## Feature Status (v3.0 — complete)
 Builder, Smoothie Size Toggle, FDA Label, Macro Donut Chart, Favorites/Saved Orders, Goal Mode, Smart Filter (13 goals + Clean Meal Score), Per-100-Cal Toggle, Context Flags, Compare Mode, Dark Mode, Share Card (html2canvas), Legal Pages (Privacy Policy, ToS, Disclaimer in About tab)
